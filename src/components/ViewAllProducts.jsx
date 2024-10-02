@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ShoppingCart.css';
 import NavBar from './NavBar';
 
-const ViewAll = () => {
+const ViewAllProducts = () => {
   const [data, fetchData] = useState([])
   const fetchDataFromAPI = () => {
     axios.get('https://fakestoreapi.com/products').then(
@@ -61,4 +61,4 @@ const ViewAll = () => {
   );
 };
 
-export default ViewAll;
+export default ViewAllProducts
