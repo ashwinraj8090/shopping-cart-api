@@ -4,21 +4,16 @@ import './ShoppingCart.css';
 import NavBar from './NavBar';
 
 const ViewAll = () => {
-const [data, changeData] = useState([]);
+  const [data, fetchData] = useState([])
+  const fetchDataFromAPI = () => {
+    axios.get('https://fakestoreapi.com/products').then(
+      (response) => {
+        fetchData(response.data)
+      }
+    ).catch()
+  }
 
-  const fetchDataFromApi = () => {
-    axios
-      .get('https://fakestoreapi.com/products')
-      .then((response) => {
-        changeData(response.data.slice(0, 10)); 
-      })
-      .catch((error) => console.error('Error fetching data', error));
-  };
-
-  useEffect(() => {
-    fetchDataFromApi();
-  }, []);
-
+  useEffect(() => { fetchDataFromAPI() }, [])
   return (
     <div>
       <NavBar />
@@ -39,20 +34,24 @@ const [data, changeData] = useState([]);
                 </tr>
               </thead>
               <tbody>
-                {data.map((value, index) => (
-                  <tr key={index} className="cart-item-row">
-                    <td>{value.id}</td>
-                    <td>{value.title}</td>
-                    <td>{value.price}</td>
-                    <td>{value.description}</td>
-                    <td>{value.category}</td>
-                    <td>
-                      <img src={value.image} alt={value.title} style={{ width: '50px', height: '50px' }} />
-                    </td>
-                    <td>{value.rating?.rate}</td>
-                    <td>{value.rating?.count}</td>
-                  </tr>
-                ))}
+                {
+                  data.map(
+                    (value, index) => {
+                      return <tr key={index} className="cart-item-row">
+                        <td>{value.id}</td>
+                        <td>{value.title}</td>
+                        <td>{value.price}</td>
+                        <td>{value.description}</td>
+                        <td>{value.category}</td>
+                        <td>
+                          <img src={value.image} alt={value.title} style={{ width: '50px', height: '50px' }} />
+                        </td>
+                        <td>{value.rating?.rate}</td>
+                        <td>{value.rating?.count}</td>
+                      </tr>
+                    }
+                  )
+                }
               </tbody>
             </table>
           </div>
